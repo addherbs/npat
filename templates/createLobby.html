@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enter Lobby Credentials to Create Lobby</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
+</head>
+<body>
+
+Here is how you create a lobby
+
+<form method="post" action="/createLobby">
+
+    <div class="form-group">
+        <label> Enter Lobby Name: </label>
+        <input type="text" class="form-control" name="lobbyName" placeholder="Lobby Name" value="adi">
+    </div>
+    <div class="form-group">
+        <label> Enter Number of Rounds: </label>
+        <input type="number" class="form-control" name="numberOfRounds" placeholder="Number of Rounds" value=5>
+    </div>
+    <button type="submit" class="btn btn-default"> Submit </button>
+
+</form>
+
+
+
+
+</body>
+</html>

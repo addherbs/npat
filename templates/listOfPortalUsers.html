@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+{#    <META HTTP-EQUIV="refresh" CONTENT="0.1">#}
+    <title>Here is a list of all the game lobbies</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstrap.css') }}">
+</head>
+
+<body>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        setInterval(function () {
+            window.location = "/eachUser";
+        }, 5000);
+    })
+</script>
+<div id="responsecontainer">
+List of all the lobbies
+hey please display this
+{#{{ lobbiesList }}#}
+
+<input type="button" value="Refresh Page" onClick="window.location.href='/eachUser'">
+
+
+<form class="people_list" method="post" id="user_key">
+    <ul class="people_list">
+
+    {% for eachLobby in lobbiesList %}
+        <li>
+            <br class="list-group-item">
+            Lobby Name: <label >{{ eachUser['user_name'] }}</label> <br>
+
+            {% if eachUser['user_key'] == session['user_key'] %}
+
+                <button  type="submit" formaction="/eachUser"
+                id="eachUser" name="eachUser" value="{{eachUser}}" >  Start </button> <br>>
+
+            {% endif  %}
+        </li>
+
+        {% endfor %}
+
+</ul>
+</form>
+</div>
+</body>
+</html>

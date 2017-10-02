@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game is over</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
+</head>
+<body>
+
+Game is over dudes!!!!!!!!
+
+Winner is {{ scores[0] }}
+
+<ul class="people_list">
+
+    <ul class="list-group">
+        {% for eachScore in scores%}
+            <li class="list-group-item">
+                Name: <button id="testing" name="testing" value="{{eachScore}}"
+                                     href="#">  {{eachScore}} </button>
+            </li>
+        {% endfor %}
+
+    </ul>
+
+</ul>
+
+
+<form method="post" action="/gameOver" name="gameOver">
+
+    <div class="form-group" id="gameOver" name="gameOver">
+            <button name="replay">Replay NPAT Game</button>
+            <button name="exit">Exit</button>
+    </div>
+
+</form>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dashboard</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
+</head>
+<body>
+
+
+    hey {{ username }} this is dashboard
+
+    <form method="post" action="/twoButton" name="twoButtonForm">
+
+        <div class="form-group" id="twoButton" name="twoButton">
+                <button name="createLobby">Create Lobby</button>
+                <button name="showLobby">Show Lobby</button>
+        </div>
+
+    </form>
+
+
+
+
+</body>
+</html>

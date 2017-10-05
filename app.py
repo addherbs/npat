@@ -98,8 +98,14 @@ def createLobby():
         firebase.put('/lobby/'+lobbyKeyName['name'], 'key_of_lobby', lobbyKeyName['name'])
         # firebase.post('/lobby/'+lobbyKeyName['name'], {'keyOfLobby': lobbyKeyName['name']})
         print(lobbyKeyName['name'])
+        print ("key of the lobby is: ",lobbyKeyName['name'])
+
         print ("checking ends")
         print ("----------------------------")
+
+
+
+
         return render_template('GamePage.html', lobbyTitle = lobbyName , number_of_rounds = number_of_rounds, owner = session['user_key'])
 
 
@@ -125,22 +131,28 @@ def joinLobby():
 
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():
-    # animal = request.form.get('animal')
-    # name = request.form.get('name')
-    # place = request.form.get('place')
-    # thing = request.form.get('thing')
 
-    animal = 'animal'
-    name = 'Name'
-    place = 'place'
-    thing = 'Thing'
+    animal = request.form.get('animal')
+    name = request.form.get('name')
+    place = request.form.get('place')
+    thing = request.form.get('thing')
+    roundNumber = request.form.get('roundno')
+    lobbyKey = request.form.get('lobbykey')
+    userKey = request.form.get('userid')
 
-    roundNumber = "round1"
-    lobbyKey = "-KvfVmzDy6ezik9jKYRM"
-    userKey = "-KvfVtQe4CbAy17RbTW-"
+
+    #
+    # animal = 'animal'
+    # name = 'Name'
+    # place = 'place'
+    # thing = 'Thing'
+    #
+    # roundNumber = "round1"
+    # lobbyKey = "-KvfVmzDy6ezik9jKYRM"
+    # userKey = "-KvfVtQe4CbAy17RbTW-"
+
 
     totalLobbyUsers = 5
-
     data = {
         'Animal': animal,
         'Name': name,
@@ -162,50 +174,40 @@ def checkFlag(lobbyKey):
     print(result)
     return result
 
-@app.route("/checkAll", methods=['GET','POST'])
-def check_all_users_submitted_for_the_current_round():
 
-    lobbyKey = "-KvfVmzDy6ezik9jKYRM"
-    currentRound = "round1"
+def check_all_users_submitted_for_the_current_round(lobbyKey, currentRound):
+
+    # lobbyKey = "-KvfVmzDy6ezik9jKYRM"
+    # currentRound = "round1"
 
     dbPathForRoundUsers = '/lobby/' + lobbyKey+ '/rounds/' + currentRound + "/"
-
-    result = firebase.get (dbPathForRoundUsers, None)
-
-    print (result)
-    print(len(result))
-
-    print ("----------------------------------------")
-    print ("----------------------------------------")
-
+    totalUsersInLobby = firebase.get (dbPathForRoundUsers, None)
 
     dbPathForTotalUsers = '/lobby/' + lobbyKey + '/users/'
-    result = firebase.get (dbPathForTotalUsers, None)
+    totalUsersSubmitted = firebase.get (dbPathForTotalUsers, None)
+
+    return True if ( len(totalUsersInLobby )== len(totalUsersSubmitted)) else False
 
 
-    print(result)
-    print (len (result))
 
-    print ("==================================")
+# @app.route("/calculateScores", methods=['GET','POST'])
+def calculateScores(rNo, lobbyName):
 
-    return "Yes"
-
-@app.route("/calculateScores", methods=['GET','POST'])
-def calculateScores():
+    print ("Calc starts")
 
     name = dict()
     place =dict()
     animal = dict()
     thing = dict()
-    rNo = "1"
+
+    # rNo = "1"
+    # lobbyName = "-KvfVmzDy6ezik9jKYRM"
+
     roundNumber = "round" + rNo
-    print("Calc starts")
-    lobbyName = "-KvfVmzDy6ezik9jKYRM"
-    # dbPath = '/lobby/' + lobbyName + '/'
 
     dbPath = '/lobby/' + lobbyName + '/rounds/' + roundNumber + "/"
-
     roundData = firebase.get(dbPath, None)
+
     print(roundData)
     # allUsers = roundData[str(roundNumber)]
     totalScore = dict()
@@ -215,9 +217,9 @@ def calculateScores():
             print("User "+ eachUser + " entered into the dictionary")
             totalScore[eachUser] = int(0)
 
-        print(roundData[str(eachUser)])
-        print(roundData[str (eachUser)][str('Animal')])
-        print (roundData[str (eachUser)][str ('Name')])
+        # print(roundData[str(eachUser)])
+        # print(roundData[str (eachUser)][str('Animal')])
+        # print (roundData[str (eachUser)][str ('Name')])
 
         a = roundData[str (eachUser)][str('Animal')]
         n = roundData[str (eachUser)][str ('Name')]
@@ -250,6 +252,7 @@ def calculateScores():
             currentValue = place[p] + "," + eachUser
             place[p] = currentValue
 
+
         if ( not (t in thing.keys() )):
             print ("This thing does not exist")
             thing[t] = eachUser
@@ -258,12 +261,12 @@ def calculateScores():
             currentValue = thing[t] + "," + eachUser
             thing[t] = currentValue
 
-    print ("=====================")
-    print(name)
-    print (place)
-    print (animal)
-    print (thing)
-    print ("=====================")
+    # print ("=====================")
+    # print(name)
+    # print (place)
+    # print (animal)
+    # print (thing)
+    # print ("=====================")
 
     print ("Validation starts")
     for k,v in name.items():
@@ -316,7 +319,7 @@ def calculateScores():
         firebase.put('/lobby/' + lobbyName + '/rounds/round1/'+ eachUser,'TotalScore', totalScore[eachUser] )
 
     print ("Calc ends")
-    return ("Hey Man")
+    return "Hey Man"
 
 
 # KvMWOr9zFNAeGrbebu4

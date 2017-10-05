@@ -22,7 +22,7 @@
         <ul class="list-group" id="usrList">
         </ul>
 
-        <button type="button" class="btn btn-success btn-lg" onclick="userList()" style="float: right;">Refresh Users List</button>
+        <button type="button" class="btn btn-success btn-lg" onclick="userList" style="float: right;">Refresh Users List</button>
 
     </div>
     <div class="col-sm-9">
@@ -149,32 +149,50 @@
 <script>
     // store current round number in a variable
     currentRoundNo = 0;
-    data = {{ lobbyJoinDetails | tojson}};
+    var lobbyJoinDetails = {{ lobbyJoinDetails | tojson}};
 
-    users = {{ listOfAllUsers | tojson}};
+    var users = {{ listOfAllUsers | tojson}};
 
 
     function userList() {
-        data = {{ lobbyJoinDetails | tojson}};
-        newList = '';
+
+        console.log("starts");
+        var data = lobbyJoinDetails;
+
         data = JSON.parse(data);
         lobbyKeyToBeSent = {
             'lobbyKey': data['key_of_lobby']
         };
-        $.post("/userList", JSON.stringify(lobbyKeyToBeSent),
-            function(data, status){
-                users = data;
-            });
-        users = JSON.parse(users);
-        console.log(users);
-        console.log("starts");
-        for (var key in users) {
-            if (users.hasOwnProperty(key)) {
-                console.log(key);
-                newList += '<li class="list-group-item">'+users[key]['name']+'</li>';
+        var receivedData;
+        $.ajax({
+            url: '/userList',
+            data: JSON.stringify(lobbyKeyToBeSent),
+            type: 'POST',
+            success: function(receivedData) {
+                console.log("Success Function Starts");
+{#                console.log(receivedData);#}
+                users = JSON.parse(receivedData);
+{#                console.log(users);#}
+                newList = '';
+                for (var key in users) {
+                    if (users.hasOwnProperty(key)) {
+{#                        console.log(key);#}
+                        newList += '<li class="list-group-item">'+users[key]['name']+'</li>';
+                    }
+                }
+                $('#usrList').html(newList);
+{#                console.log("Success Function Ends");#}
+            },
+            error: function(error) {
+                console.log("Error Function Starts");
+                console.log(error);
+                console.log("Error Function Ends");
             }
-        }
-        $('#usrList').html(newList);
+        });
+
+        {#        loop();#}
+        {#        return loop;#}
+        var check =  setInterval(userList, 5000);
     }
 
 
@@ -301,9 +319,9 @@
         }
     });
 
-    var lobbykey = data['key_of_lobby'];
-    var totalRounds = data['number_of_rounds'];
-    var userid = data['created_by_key'];
+    var lobbykey = lobbyJoinDetails['key_of_lobby'];
+    var totalRounds = lobbyJoinDetails['number_of_rounds'];
+    var userid = lobbyJoinDetails['created_by_key'];
     $('#totalRounds').html(totalRounds);
     $('#lobbykey').val(lobbykey);
     var flag = 1;

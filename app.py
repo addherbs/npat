@@ -40,31 +40,6 @@ def twoButton():
     if (selected_operation[0] == showLobby):
         return redirect ('/showLobby')
 
-# @app.route ('/eachUser', methods=['GET', 'POST'])
-# def eachUser():
-#     if request.method == 'post':
-#         userNames = firebase.get('/lobby/'+lobby_key+"/"+'users',None)
-#         return render_template ('GamePage.html', currentLobby=entireLobbyData, currentUserKey=user_key)
-
-
-@app.route('/submit', methods=['GET', 'POST'])
-def submit():
-    # animal = request.form.get('animal')
-    # name = request.form.get('name')
-    # place = request.form.get('place')
-    # thing = request.form.get('thing')
-
-    # currentRound=request.form.get('currentRound')
-    # print("currentRound"+currentRound)
-    data = {
-        'A': 'animal',
-        'N': 'name',
-        'P': 'place',
-        'T': 'thing'
-    }
-    print(session['user_key'])
-    firebase.put('/lobby/-KvNi0Bna6I-F-03Rx9x/rounds/round1/'+session["user_key"],session["user_key"] ,data)
-    return '<h1>success</h1>'
 
 @app.route('/createLobby', methods=['GET','POST'])
 def createLobby():
@@ -148,6 +123,38 @@ def joinLobby():
     entireLobbyData = firebase.get('/lobby/'+lobby_key, None)
 
     return render_template('GamePage.html', currentLobby = entireLobbyData, currentUserKey = user_key )
+
+
+
+@app.route('/submit', methods=['GET', 'POST'])
+def submit():
+    animal = request.form.get('animal')
+    name = request.form.get('name')
+    place = request.form.get('place')
+    thing = request.form.get('thing')
+
+    # currentRound=request.form.get('currentRound')
+    # print("currentRound"+currentRound)
+    lobbyList = []
+    get = firebase.get('/lobby', None)
+    for eachkey in get:
+        # createdBy = get[eachkey]['created_by']
+        key_of_lobby = get[eachkey]['key_of_lobby']
+        running = get[eachkey]['running']
+        if running == False:
+            data = {
+                'A': animal,
+                'N': name,
+                'P': place,
+                'T': thing
+            }
+            # print (data)
+            lobbyList.append(data)
+            print (lobbyList)
+        firebase.post('/lobby/-KvMxBQ2HI2LT_YjZKgk/rounds/round1/'+session["username"], lobbyList)
+    return '<h1>success</h1>'
+
+
 
 
 @app.route("/calculateScores", methods=['GET','POST'])
@@ -280,7 +287,7 @@ def calculateScores():
         for round in roundsData:
             allUsers = roundsData[str (round)]
             for eachUser in allUsers:
-                firebase.put('/lobby/' + lobbyName + '/rounds/round1/'+ eachUser,'TP', totalScore[eachUser] )
+                firebase.put('/lobby/' + lobbyName + '/rounds/round1/'+ eachUser,'TotalScore', totalScore[eachUser] )
 
 
     print ("Calc ends")

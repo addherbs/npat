@@ -128,30 +128,30 @@ def joinLobby():
 
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():
-    animal = request.form.get('animal')
-    name = request.form.get('name')
-    place = request.form.get('place')
-    thing = request.form.get('thing')
+    # animal = request.form.get('animal')
+    # name = request.form.get('name')
+    # place = request.form.get('place')
+    # thing = request.form.get('thing')
 
-    # currentRound=request.form.get('currentRound')
-    # print("currentRound"+currentRound)
-    lobbyList = []
-    get = firebase.get('/lobby', None)
-    for eachkey in get:
-        # createdBy = get[eachkey]['created_by']
-        key_of_lobby = get[eachkey]['key_of_lobby']
-        running = get[eachkey]['running']
-        if running == False:
-            data = {
-                'A': animal,
-                'N': name,
-                'P': place,
-                'T': thing
-            }
-            # print (data)
-            lobbyList.append(data)
-            print (lobbyList)
-        firebase.post('/lobby/-KvMxBQ2HI2LT_YjZKgk/rounds/round1/'+session["username"], lobbyList)
+
+    animal = 'Animal'
+    name = 'new Name'
+    place = 'Askad'
+    thing = 'Thing'
+
+    roundNumber = '2'
+    lobbyKey = "-Kvdy5fccWX2DhsZZsXk"
+    userKey = "-Kve7znWafAHxcb112YQ"
+
+    data = {
+        'A': animal,
+        'N': name,
+        'P': place,
+        'T': thing
+    }
+    insertLocation = '/lobby/' + lobbyKey + '/rounds/' + roundNumber + '/'
+    # firebase.put ('/lobby/' + lobby_key + '/users', user_key, currentUser)
+    firebase.put (insertLocation, userKey, data)
     return '<h1>success</h1>'
 
 

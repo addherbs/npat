@@ -154,6 +154,14 @@ def submit():
     return '<h1>success</h1>'
 
 
+def checkFlag(lobbyKey):
+    # lobbyKey = "-KvfVmzDy6ezik9jKYRM"
+    dbPath= '/lobby/' + lobbyKey + '/all_user_submited'
+    print(dbPath)
+    result = firebase.get(dbPath, None)
+    print(result)
+    return result
+
 
 @app.route("/calculateScores", methods=['GET','POST'])
 def calculateScores():

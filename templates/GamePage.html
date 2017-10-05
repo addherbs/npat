@@ -1,341 +1,326 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-	<!-- Latest compiled JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-	<title>Game Page</title>
-	<style type="text/css">
-		th{
-			text-align: center;
-		}
-	</style>
+    <title>Game Page</title>
+    <style type="text/css">
+        th{
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-	<div class="container">
-		<div class="col-sm-12">
-			<div class="col-sm-6">
-				<label>
-					Game Time: <strong id="gameTime" style="color: red;">0</strong>
-				</label>
-			</div>
-			<div class="col-sm-6">
-				<label>
-					Countdown: <strong id="countDown" style="color: red;">0</strong>
-				</label>
-			</div>
-		</div>
-		<div class="col-sm-12">
-			<div class="col-sm-6">
-				<label>
-					Alphabet: <strong id="currAlpha" style="color: red;"></strong>
-				</label>
-			</div>
-			<div class="col-sm-6">
-				<label>
-					Cool Down: <strong id="coolDown" style="color: red;">0</strong>
-				</label>
-			</div>
-		</div>
-		<div class="col-sm-12">
-			<div class="col-sm-6">
-				<label>
-					Current Round: <strong id="currRound" style="color: red;"></strong>
-				</label>
-			</div>
-			<div class="col-sm-6">
-				<label>
-					No. of Rounds: <strong id="totalRounds" style="color: red;"></strong>
-				</label>
-			</div>
-		</div>
-		<div class="col-sm-12">
-			<div class="col-sm-6">
-				<label>
-					Status: <strong id="currStatus" style="color: red;"> Starting Game </strong>
-				</label>
-			</div>
-			<div class="col-sm-6">
-				<label>
-					Your Score: <strong id="userScore" style="color: red;">0</strong>
-				</label>
-			</div>
-		</div>
-		<div class="col-sm-12">
-			<form id="userGameForm" method="POST">
-				<table class="table">
-					<thead>
-						<tr class="text-center">
-							<th>Name</th>
-							<th>Place</th>
-							<th>Animal</th>
-							<th>Thing</th>
-						</tr>
-					</thead>
-					<tbody>
-							<tr class="text-center">
-								<td>
-									<input type="text" class="form-control" id="name" placeholder="Enter Name" name="name">
-                                    <input type="text" class="form-control" id="userid" name="userid" style="display: none;">
-                                    <input type="text" class="form-control" id="roundno" name="roundno" style="display: none;">
-                                    <input type="text" class="form-control" id="lobbykey" name="lobbykey" style="display: none;">
-								</td>
-								<td>
-									<input type="text" class="form-control" id="place" placeholder="Enter Place" name="place">
-								</td>
-								<td>
-									<input type="text" class="form-control" id="animal" placeholder="Enter Animal" name="animal">
-								</td>
-								<td>
-									<input type="text" class="form-control" id="thing" placeholder="Enter Thing" name="thing">
-								</td>
-							</tr>
-					</tbody>
-				</table>
-				<div class="col-sm-12 text-center">
-					<button type="submit" id="submitAnswers" class="btn btn-default">Submit</button>
-				</div>
-			</form>
-		<br><br>
-		</div>
-		<div class="col-sm-12" id="gameResults" style="display: none;">
+<div class="container">
+    <div class="col-sm-3">
+        <h4>List of Users in Lobby</h4>
+        <ul class="list-group" id="usrList">
+        </ul>
+    </div>
+    <div class="col-sm-9">
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-danger btn-lg">End Game</button>
+            <button type="button" class="btn btn-success btn-lg" onclick="coolDownTimer(5)" style="float: right;">Start Game</button>
+            <button type="button" class="btn btn-warning btn-lg" style="float: right;">Leave Lobby</button>
 
-				<table class="table" id ="scoreBoard">
-					<thead>
-						<tr class="text-center">
-							<th>UserName</th>
-							<th>Name</th>
-							<th>Place</th>
-							<th>Animal</th>
-							<th>Thing</th>
-							<th>Total</th>
-						</tr>
-					</thead>
-					<tbody id="rowBody">
-							<tr class="text-center">
+        </div>
+        <div class="col-sm-12">
+            <div class="col-sm-6">
+                <label>
+                    Game Time: <strong id="gameTime" style="color: red;">0</strong>
+                </label>
+            </div>
+            <div class="col-sm-6">
+                <label>
+                    Countdown: <strong id="countDown" style="color: red;">0</strong>
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="col-sm-6">
+                <label>
+                    Alphabet: <strong id="currAlpha" style="color: red;"></strong>
+                </label>
+            </div>
+            <div class="col-sm-6">
+                <label>
+                    Cool Down: <strong id="coolDown" style="color: red;">0</strong>
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="col-sm-6">
+                <label>
+                    Current Round: <strong id="currRound" style="color: red;"></strong>
+                </label>
+            </div>
+            <div class="col-sm-6">
+                <label>
+                    No. of Rounds: <strong id="totalRounds" style="color: red;"></strong>
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="col-sm-6">
+                <label>
+                    Status: <strong id="currStatus" style="color: red;"> Starting Game </strong>
+                </label>
+            </div>
+            <div class="col-sm-6">
+                <label>
+                    Your Score: <strong id="userScore" style="color: red;">0</strong>
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <form id="userGameForm" method="POST">
+                <table class="table">
+                    <thead>
+                    <tr class="text-center">
+                        <th>Name</th>
+                        <th>Place</th>
+                        <th>Animal</th>
+                        <th>Thing</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="text-center">
+                        <td>
+                            <input type="text" class="form-control" id="name" placeholder="Enter Name" name="name">
+                            <input type="text" class="form-control" id="userid" name="userid" style="display: none;">
+                            <input type="text" class="form-control" id="roundno" name="roundno" style="display: none;">
+                            <input type="text" class="form-control" id="lobbykey" name="lobbykey" style="display: none;">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" id="place" placeholder="Enter Place" name="place">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" id="animal" placeholder="Enter Animal" name="animal">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" id="thing" placeholder="Enter Thing" name="thing">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="col-sm-12 text-center">
+                    <button type="submit" id="submitAnswers" class="btn btn-default">Submit</button>
+                </div>
+            </form>
+            <br><br>
+        </div>
+        <div class="col-sm-12" id="gameResults" style="display: none;">
 
-							</tr>
-					</tbody>
-				</table>
+            <table class="table" id ="scoreBoard">
+                <thead>
+                <tr class="text-center">
+                    <th>UserName</th>
+                    <th>Name</th>
+                    <th>Place</th>
+                    <th>Animal</th>
+                    <th>Thing</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody id="rowBody">
+                <tr class="text-center">
+
+                </tr>
+                </tbody>
+            </table>
             <br><br>
             <div class="col-sm-12 text-center" id="exitButtons" style="display: none;">
                 <a href="#" class="btn btn-default">End Game</a>
                 <a href="#" class="btn btn-primary">Lobby</a>
             </div>
-		</div>
+        </div>
+    </div>
 
-	</div>
-	<script>
-		// store current round number in a variable
-		currentRoundNo = 0;
-		console.log(currentRoundNo);
-		//data of current lobby from server
-		data ={
-          "created_by" : "adi",
-          "created_by_key" : "-KvfViot9KYklU8QNGnO",
-          "key_of_lobby" : "-KvfVmzDy6ezik9jKYRM",
-          "lobby_name" : "lobby1",
-          "number_of_rounds" : 3,
-          "random_char_list" : [ "F", "P", "Q" ],
-          "rounds" : {
-            "round1" : {
-              "-KvfViot9KYklU8QNGnO" : {
-                "Animal" : "animal",
-                "Name" : "Name",
-                "Place" : "place",
-                "Thing" : "Thing",
-                "TotalScore" : 20
-              },
-              "-KvfVtQe4CbAy17RbTW-" : {
-                "Animal" : "animal",
-                "Name" : "Name",
-                "Place" : "place",
-                "Thing" : "Thing",
-                "TotalScore" : 20
-              }
-            },
-            "round2" : {
-              "-KvfViot9KYklU8QNGnO" : {
-                "Animal" : "animal2",
-                "Name" : "Name2",
-                "Place" : "place2",
-                "Thing" : "Thing2",
-                "TotalScore" : 40
-              },
-              "-KvfVtQe4CbAy17RbTW-" : {
-                "Animal" : "animal3",
-                "Name" : "Name3",
-                "Place" : "place3",
-                "Thing" : "Thing3",
-                "TotalScore" : 40
-              }
-            },
-            "round3" : {
-              "-KvfViot9KYklU8QNGnO" : {
-                "Animal" : "animal4",
-                "Name" : "Name4",
-                "Place" : "place4",
-                "Thing" : "Thing4",
-                "TotalScore" : 20
-              },
-              "-KvfVtQe4CbAy17RbTW-" : {
-                "Animal" : "animal4",
-                "Name" : "Name4",
-                "Place" : "place4",
-                "Thing" : "Thing4",
-                "TotalScore" : 20
-              }
-            }
-          },
-          "running" : false,
-          "users" : {
-            "-KvfViot9KYklU8QNGnO" : {
-              "key_of_user" : "-KvfViot9KYklU8QNGnO",
-              "name" : "adi"
-            },
-            "-KvfVtQe4CbAy17RbTW-" : {
-              "key_of_user" : "-KvfVtQe4CbAy17RbTW-",
-              "name" : "nish"
-            }
-          }
+
+</div>
+<script>
+    // store current round number in a variable
+    currentRoundNo = 0;
+    console.log(currentRoundNo);
+    //data of current lobby from server
+
+    console.log("incoming JSON data");
+    data = {{ lobbyJoinDetails | tojson}};
+    console.log(data);
+
+    console.log("incoming Users data");
+    users = {{ listOfAllUsers | tojson}};
+    console.log(users);
+
+    function userList() {
+        newList = '';
+
+        console.log("===========");
+        console.log(data)
+        console.log("===========");
+
+        data = JSON.parse(data);
+        console.log(data);
+
+        console.log(data['key_of_lobby']);
+        console.log(JSON.stringify(data['key_of_lobby']));
+
+        newData = {
+                'lobbyKey': data['key_of_lobby']
         };
 
-
-        function coolDownTimer(setTime) {
-            $('#currStatus').html('Starting Game!');
-            $('#submitAnswers').prop('disabled', true);
-		    var count = setTime, timer = setInterval(function() {
-                $("#coolDown").html(count--);
-                if(count == - 1) {
-                    clearInterval(timer);
-                    $('#gameResults').hide();
-                    $('#rowBody').empty();
-			        $('#rowBody').html('<tr class="text-center"></tr>');
-                    newRoundTimer();
-                }
-            }, 1000);
-        }
-
-
-		function timeUp() {
-            $('#userGameForm').trigger('submit');
-            alert("Times Up");
-            submitAnswers();
-            // display score after geting a serponse from server
-            displayScores();
-            if(currentRoundNo < totalRounds){
-                coolDownTimer(15);
-            }else {
-                $("#exitButtons").show();
-                alert("Game Over!");
+        $.post("/userList", JSON.stringify(newData)
+            ,
+            function(data, status){
+                users = data;
+                console.log(users);
+            });
+        for (var key in users) {
+            if (users.hasOwnProperty(key)) {
+                newList += '<li class="list-group-item">'+users[key]['name']+'</li>';
             }
         }
+        $('#usrList').html(newList);
+    }
 
-		function newRoundTimer(){
-            flag = 1;
-            currentRoundNo ++;
-            currentRound = 'round'+ currentRoundNo;
-            $("#roundno").val(currentRound);
-            $('#submitAnswers').prop('disabled', false);
-		    alpha = data['random_char_list'][currentRoundNo-1];
-		    console.log(alpha);
-		    $('#userid').val(userid);
-            $('#currAlpha').html(alpha);
-			$('#currRound').html(currentRoundNo);
-			$('#roundno').html(currentRound);
-            $("#countdown").html('15');
-            $('#currStatus').html('Game Started');
-		    var count = 45, downTime = setInterval(function() {
-                $("#gameTime").html(count--);
-                currentTimerID = downTime;
-                if(count == - 1) {
-                    clearInterval(downTime);
-                    flag = 0;
-                    timeUp();
-                }
-		    }, 1000);
+
+    function coolDownTimer(setTime) {
+        $('#currStatus').html('Starting Game!');
+        $('#submitAnswers').prop('disabled', true);
+        var count = setTime, timer = setInterval(function() {
+            $("#coolDown").html(count--);
+            if(count == - 1) {
+                clearInterval(timer);
+                $('#gameResults').hide();
+                $('#rowBody').empty();
+                $('#rowBody').html('<tr class="text-center"></tr>');
+                newRoundTimer();
+            }
+        }, 1000);
+    }
+
+
+    function timeUp() {
+        $('#userGameForm').trigger('submit');
+        alert("Times Up");
+        submitAnswers();
+        // display score after geting a serponse from server
+        displayScores();
+        if(currentRoundNo < totalRounds){
+            coolDownTimer(15);
+        }else {
+            $("#exitButtons").show();
+            alert("Game Over!");
         }
+    }
 
-        function countDownTimer() {
-            clearInterval(currentTimerID);
-            flag = 0;
-            $('#currStatus').html('Countdown Started!');
-            var currGT = $("#gameTime").html();
+    function newRoundTimer(){
+        flag = 1;
+        currentRoundNo ++;
+        currentRound = 'round'+ currentRoundNo;
+        $("#roundno").val(currentRound);
+        $('#submitAnswers').prop('disabled', false);
+        alpha = data['random_char_list'][currentRoundNo-1];
+        console.log(alpha);
+        $('#userid').val(userid);
+        $('#currAlpha').html(alpha);
+        $('#currRound').html(currentRoundNo);
+        $('#roundno').html(currentRound);
+        $("#countdown").html('15');
+        $('#currStatus').html('Game Started');
+        var count = 45, downTime = setInterval(function() {
+            $("#gameTime").html(count--);
+            currentTimerID = downTime;
+            if(count == - 1) {
+                clearInterval(downTime);
+                flag = 0;
+                timeUp();
+            }
+        }, 1000);
+    }
 
-            if (currGT < 15 && currGT > 0) currGT = currGT;
-			else currGT = 15;
+    function countDownTimer() {
+        clearInterval(currentTimerID);
+        flag = 0;
+        $('#currStatus').html('Countdown Started!');
+        var currGT = $("#gameTime").html();
 
-            var count = currGT, countDownTime = setInterval(function() {
-                $("#countDown").html(count--);
-                CDTimerID = countDownTime;
-                if(count == - 1) {
-                    clearInterval(countDownTime);
-                    timeUp();
-                }
-		    }, 1000);
+        if (currGT < 15 && currGT > 0) currGT = currGT;
+        else currGT = 15;
+
+        var count = currGT, countDownTime = setInterval(function() {
+            $("#countDown").html(count--);
+            CDTimerID = countDownTime;
+            if(count == - 1) {
+                clearInterval(countDownTime);
+                timeUp();
+            }
+        }, 1000);
+    }
+
+    function submitAnswers() {
+        // send data to the server for computation of score
+        $.ajax({
+            type: "POST",
+            url: '/submit',  // function call to calculate scores
+            data: $("#userGameForm").serialize(), // serializes the form's elements.
+            success: function(data)
+            {
+                alert(data); // show response from the php script.
+                $("#submitAnswers").reset();
+            }
+        });
+    }
+
+    function displayScores() {
+        //after getting a response from the server
+        currentRoundData = data1['rounds'][currentRound];
+        console.log(currentRoundData);
+        for (var key in currentRoundData) {
+            if (currentRoundData.hasOwnProperty(key)) {
+                userKey = key;
+                userScores = (currentRoundData[key]);
+                console.log(userScores);
+                rowString = '<tr class="text-center">'+
+                    '<td><label>'+userKey+'</label></td>'+
+                    '<td><label>'+userScores['Name']+'</label></td>'+
+                    '<td><label>'+userScores['Place']+'</label></td>'+
+                    '<td><label>'+userScores['Animal']+'</label></td>'+
+                    '<td><label>'+userScores['Thing']+'</label></td>'+
+                    '<td><label>'+userScores['TotalScore']+'</label></td></tr>';
+
+                $('#scoreBoard tr:last').after(rowString);
+            }
         }
+        $('#gameResults').show();
+    }
 
-        function submitAnswers() {
-            // send data to the server for computation of score
-                $.ajax({
-                    type: "POST",
-                    url: '/submit',  // function call to calculate scores
-                    data: $("#userGameForm").serialize(), // serializes the form's elements.
-                    success: function(data)
-                    {
-                       alert(data); // show response from the php script.
-                       $("#submitAnswers").reset();
-                    }
-                });
+    $('#userGameForm').on('submit', function (event) {
+        event.preventDefault();
+
+        //after the first submit, stop the game timer and start the countdown timer
+        if(!$("#submitAnswers").is(":disabled")){
+            $('#submitAnswers').prop('disabled', true);
+            if(flag){
+                countDownTimer();
+            }
         }
+    });
 
-        function displayScores() {
-		    //after getting a response from the server
-			currentRoundData = data['rounds'][currentRound];
-			console.log(currentRoundData);
-			for (var key in currentRoundData) {
-				if (currentRoundData.hasOwnProperty(key)) {
-					userKey = key;
-					userScores = (currentRoundData[key]);
-					console.log(userScores);
-					rowString = '<tr class="text-center">'+
-								'<td><label>'+userKey+'</label></td>'+
-								'<td><label>'+userScores['Name']+'</label></td>'+
-								'<td><label>'+userScores['Place']+'</label></td>'+
-								'<td><label>'+userScores['Animal']+'</label></td>'+
-								'<td><label>'+userScores['Thing']+'</label></td>'+
-								'<td><label>'+userScores['TotalScore']+'</label></td></tr>';
-
-					$('#scoreBoard tr:last').after(rowString);
-				}
-			}
-			$('#gameResults').show();
-        }
-
-		$('#userGameForm').on('submit', function (event) {
-			event.preventDefault();
-
-            //after the first submit, stop the game timer and start the countdown timer
-            if(!$("#submitAnswers").is(":disabled")){
-			    $('#submitAnswers').prop('disabled', true);
-			    if(flag){
-			        countDownTimer();
-                }
-			}
-		});
-
-		var lobbykey = data['key_of_lobby'];
-		var totalRounds = data['number_of_rounds'];
-        var userid = data['created_by_key'];
-        $('#totalRounds').html(totalRounds);
-        $('#lobbykey').val(lobbykey);
-        var flag = 1;
-		coolDownTimer(5);
-	</script>
+    var lobbykey = data['key_of_lobby'];
+    var totalRounds = data['number_of_rounds'];
+    var userid = data['created_by_key'];
+    $('#totalRounds').html(totalRounds);
+    $('#lobbykey').val(lobbykey);
+    var flag = 1;
+    //coolDownTimer(5);
+    userList();
+</script>
 
 </body>
 </html>

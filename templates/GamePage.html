@@ -146,42 +146,33 @@
 <script>
     // store current round number in a variable
     currentRoundNo = 0;
-    console.log(currentRoundNo);
-    //data of current lobby from server
-
-    console.log("incoming JSON data");
     data = {{ lobbyJoinDetails | tojson}};
-    console.log(data);
 
-    console.log("incoming Users data");
     users = {{ listOfAllUsers | tojson}};
-    console.log(users);
+
 
     function userList() {
         newList = '';
 
-        console.log("===========");
-        console.log(data)
-        console.log("===========");
 
         data = JSON.parse(data);
-        console.log(data);
 
-        console.log(data['key_of_lobby']);
-        console.log(JSON.stringify(data['key_of_lobby']));
 
         newData = {
-                'lobbyKey': data['key_of_lobby']
+            'lobbyKey': data['key_of_lobby']
         };
 
-        $.post("/userList", JSON.stringify(newData)
-            ,
+        $.post("/userList", JSON.stringify(newData),
             function(data, status){
                 users = data;
-                console.log(users);
             });
+{#        console.log(users);#}
+        users = JSON.parse(users);
+        console.log(users);
+        console.log("starts");
         for (var key in users) {
             if (users.hasOwnProperty(key)) {
+                console.log(key);
                 newList += '<li class="list-group-item">'+users[key]['name']+'</li>';
             }
         }

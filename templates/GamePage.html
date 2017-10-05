@@ -21,6 +21,9 @@
         <h4>List of Users in Lobby</h4>
         <ul class="list-group" id="usrList">
         </ul>
+
+        <button type="button" class="btn btn-success btn-lg" onclick="userList()" style="float: right;">Refresh Users List</button>
+
     </div>
     <div class="col-sm-9">
         <div class="col-sm-12">
@@ -152,21 +155,16 @@
 
 
     function userList() {
+        data = {{ lobbyJoinDetails | tojson}};
         newList = '';
-
-
         data = JSON.parse(data);
-
-
-        newData = {
+        lobbyKeyToBeSent = {
             'lobbyKey': data['key_of_lobby']
         };
-
-        $.post("/userList", JSON.stringify(newData),
+        $.post("/userList", JSON.stringify(lobbyKeyToBeSent),
             function(data, status){
                 users = data;
             });
-{#        console.log(users);#}
         users = JSON.parse(users);
         console.log(users);
         console.log("starts");

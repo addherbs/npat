@@ -125,30 +125,19 @@ def createLobby():
 @app.route("/userList", methods=['GET','POST'])
 def userList():
 
-    print ("""Starts""")
-    inputData = request.form
-    inputData = dict(inputData)
-    print (inputData)
+    inputData = dict(request.form)
     myData = ''
     for key in inputData:
         myData = key
 
-    print(myData)
-    print(type(myData))
-
     myData = json.loads(myData)
-    print (myData)
-    print(type(myData))
     lobbyKey = myData['lobbyKey']
-    print(lobbyKey)
-
 
     users = firebase.get('/lobby/'+ lobbyKey + '/users/', None)
     print(users)
     users = json.dumps (users)
-    print (users)
 
-    return render_template ('GamePage.html', listOfAllUsers=users)
+    return users
 
 
 @app.route("/joinLobby", methods=['GET','POST'])

@@ -156,12 +156,39 @@ def submit():
 
 def checkFlag(lobbyKey):
     # lobbyKey = "-KvfVmzDy6ezik9jKYRM"
-    dbPath= '/lobby/' + lobbyKey + '/all_user_submited'
+    dbPath= '/lobby/' + lobbyKey + '/all_user_submitted'
     print(dbPath)
     result = firebase.get(dbPath, None)
     print(result)
     return result
 
+@app.route("/checkAll", methods=['GET','POST'])
+def check_all_users_submitted_for_the_current_round():
+
+    lobbyKey = "-KvfVmzDy6ezik9jKYRM"
+    currentRound = "round1"
+
+    dbPathForRoundUsers = '/lobby/' + lobbyKey+ '/rounds/' + currentRound + "/"
+
+    result = firebase.get (dbPathForRoundUsers, None)
+
+    print (result)
+    print(len(result))
+
+    print ("----------------------------------------")
+    print ("----------------------------------------")
+
+
+    dbPathForTotalUsers = '/lobby/' + lobbyKey + '/users/'
+    result = firebase.get (dbPathForTotalUsers, None)
+
+
+    print(result)
+    print (len (result))
+
+    print ("==================================")
+
+    return "Yes"
 
 @app.route("/calculateScores", methods=['GET','POST'])
 def calculateScores():

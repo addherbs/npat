@@ -167,7 +167,7 @@ def submit():
             }
             # print (data)
             lobbyList.append(data)
-            print lobbyList
+            print (lobbyList)
         firebase.post('/lobby/-KvMxBQ2HI2LT_YjZKgk/rounds/round1/'+session["username"], lobbyList)
     return '<h1>success</h1>'
 #Causes the app to start

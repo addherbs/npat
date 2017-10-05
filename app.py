@@ -107,9 +107,17 @@ def createLobby():
             'current_user_key' : session['user_key']
         }
 
+        sendingData = json.dumps(sendingData)
 
         users = firebase.get('/lobby/'+ lobbyKeyName['name'] + '/users/', None)
         print(users)
+
+
+        # sendingData = json.dump (sendingData)
+        users =  json.dumps(users)
+
+        print(sendingData)
+        print (users)
 
 
         return render_template('GamePage.html', lobbyJoinDetails = sendingData, listOfAllUsers = users )
@@ -117,18 +125,37 @@ def createLobby():
 @app.route("/userList", methods=['GET','POST'])
 def userList():
 
-    lobbyKey= request.form.get['lobbyKey']
+    print ("""Starts""")
+    inputData = request.form
+    inputData = dict(inputData)
+    print (inputData)
+    myData = ''
+    for key in inputData:
+        myData = key
+
+    print(myData)
+    print(type(myData))
+
+    myData = json.loads(myData)
+    print (myData)
+    print(type(myData))
+    lobbyKey = myData['lobbyKey']
+    print(lobbyKey)
+
+
     users = firebase.get('/lobby/'+ lobbyKey + '/users/', None)
     print(users)
+    users = json.dumps (users)
+    print (users)
 
     return render_template ('GamePage.html', listOfAllUsers=users)
 
 
 @app.route("/joinLobby", methods=['GET','POST'])
 def joinLobby():
-    print ("joinLobby method starts")
+    # print ("joinLobby method starts")
     currentLobby = json.loads(request.form["joinLobby"].replace("'", '"'))
-    print("joinLobby starts")
+    # print("joinLobby starts")
     print(currentLobby)
 
     lobby_key = currentLobby['key_of_lobby']
@@ -139,8 +166,8 @@ def joinLobby():
 
     entireLobbyData = firebase.get('/lobby/'+lobby_key, None)
 
-    print ("=========EntireLobbyData============")
-    print(entireLobbyData)
+    # print ("=========EntireLobbyData============")
+    # print(entireLobbyData)
 
     sendingData = {
         'created_by': entireLobbyData['created_by'],
@@ -151,17 +178,17 @@ def joinLobby():
         'random_char_list': entireLobbyData['random_char_list'],
         'current_user_key': session['user_key']
     }
-    print ("=========Sending Data============")
-    print(sendingData)
+    # print ("=========Sending Data============")
+    # print(sendingData)
 
     users = firebase.get ('/lobby/' + entireLobbyData['key_of_lobby'] + '/users/', None)
-    print ("=========Users============")
-    print (users)
+    # print ("=========Users============")
+    # print (users)
+
+    sendingData = json.dumps (sendingData)
+    users = json.dumps (users)
 
     return render_template ('GamePage.html', lobbyJoinDetails=sendingData, listOfAllUsers=users)
-
-
-    # return render_template('GamePage.html', currentLobby = entireLobbyData, currentUserKey = user_key )
 
 
 

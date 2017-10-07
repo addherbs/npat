@@ -153,6 +153,21 @@
 
     var users = {{ listOfAllUsers | tojson}};
 
+    $(document).ready(function() {
+       $("#startGameButon").hide();
+       {#        var lobbyJoinDetails = {{ lobbyJoinDetails | tojson}};#}
+       var data = lobbyJoinDetails;
+       data = JSON.parse(data);
+       created_by_key = data['created_by_key'];
+       current_user_key = data['current_user_key'];
+       if(created_by_key.trim() === current_user_key.trim())
+       {
+           $("#startGameButon").show();
+       }
+   });
+
+
+
 
     function userList() {
 

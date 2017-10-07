@@ -232,6 +232,15 @@ def calculationBeforeGoingBack(lobbyKey, roundNumber):
         firebase.put(dbPath , 'all_user_submitted', True )
         calculateScores(currentRound, lobbyKey)
 
+      else:
+        # Change the all_user_submitted variable to True
+        print("else case")
+        while (not checkFlag(lobbyKey)):
+            print("into the else-whileLooop")
+            # Make python sleep for 2 second
+            time.sleep(2)
+
+
         # Change the all_user_submitted variable to True
 
 

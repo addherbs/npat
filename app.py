@@ -213,8 +213,24 @@ def submit():
     # firebase.put ('/lobby/' + lobby_key + '/users', user_key, currentUser)
     firebase.put (insertLocation, userKey, data)
 
+    result = calculationBeforeGoingBack(lobbyKey, roundNumber)
+
+
     return '<h1>success</h1>'
 
+def calculationBeforeGoingBack(lobbyKey, roundNumber):
+    lobbyKey = "-KvfVmzDy6ezik9jKYRM"
+    currentRound = "round1"
+    # Check if all the users have submitted the scores or no
+    #     if submitted:
+    #         update the 'all_user_submitted' key to true
+
+
+        # Change the all_user_submitted variable to True
+
+
+    # Check for 'all_user_submitted' variable in the lobby class
+    return "lol"
 
 def checkFlag(lobbyKey):
     # lobbyKey = "-KvfVmzDy6ezik9jKYRM"

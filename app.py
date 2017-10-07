@@ -225,6 +225,12 @@ def calculationBeforeGoingBack(lobbyKey, roundNumber):
     #     if submitted:
     #         update the 'all_user_submitted' key to true
 
+     if(check_all_users_submitted_for_the_current_round(lobbyKey,currentRound)):
+
+
+        dbPath = '/lobby/' + lobbyKey + '/'
+        firebase.put(dbPath , 'all_user_submitted', True )
+        calculateScores(currentRound, lobbyKey)
 
         # Change the all_user_submitted variable to True
 

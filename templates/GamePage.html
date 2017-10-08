@@ -22,151 +22,152 @@
         <ul class="list-group" id="usrList">
         </ul>
 
+
+
         <button type="button" class="btn btn-success btn-lg" onclick="userList" style="float: right;">Refresh Users List</button>
 
     </div>
     <div class="col-sm-9">
-        <div class="col-sm-12">
-            <button type="button" class="btn btn-danger btn-lg">End Game</button>
-            <button type="button" class="btn btn-success btn-lg" onclick="coolDownTimer(5)" style="float: right;">Start Game</button>
-            <button type="button" class="btn btn-warning btn-lg" style="float: right;">Leave Lobby</button>
+        <br class="col-sm-12">
+        <button type="button" class="btn btn-danger btn-lg">End Game</button>
+        <button name="startGameButon" id="startGameButon"  type="button" class="btn btn-success btn-lg" onclick="coolDownTimer(5)" style="float: right;">Start Game</button>
+        <button type="button" class="btn btn-warning btn-lg" style="float: right;">Leave Lobby</button>
 
+    </div>
+    <div class="col-sm-12">
+        <div class="col-sm-6">
+            <label>
+                Game Time: <strong id="gameTime" style="color: red;">0</strong>
+            </label>
         </div>
-        <div class="col-sm-12">
-            <div class="col-sm-6">
-                <label>
-                    Game Time: <strong id="gameTime" style="color: red;">0</strong>
-                </label>
-            </div>
-            <div class="col-sm-6">
-                <label>
-                    Countdown: <strong id="countDown" style="color: red;">0</strong>
-                </label>
-            </div>
+        <div class="col-sm-6">
+            <label>
+                Countdown: <strong id="countDown" style="color: red;">0</strong>
+            </label>
         </div>
-        <div class="col-sm-12">
-            <div class="col-sm-6">
-                <label>
-                    Alphabet: <strong id="currAlpha" style="color: red;"></strong>
-                </label>
-            </div>
-            <div class="col-sm-6">
-                <label>
-                    Cool Down: <strong id="coolDown" style="color: red;">0</strong>
-                </label>
-            </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="col-sm-6">
+            <label>
+                Alphabet: <strong id="currAlpha" style="color: red;"></strong>
+            </label>
         </div>
-        <div class="col-sm-12">
-            <div class="col-sm-6">
-                <label>
-                    Current Round: <strong id="currRound" style="color: red;"></strong>
-                </label>
-            </div>
-            <div class="col-sm-6">
-                <label>
-                    No. of Rounds: <strong id="totalRounds" style="color: red;"></strong>
-                </label>
-            </div>
+        <div class="col-sm-6">
+            <label>
+                Cool Down: <strong id="coolDown" style="color: red;">0</strong>
+            </label>
         </div>
-        <div class="col-sm-12">
-            <div class="col-sm-6">
-                <label>
-                    Status: <strong id="currStatus" style="color: red;"> Starting Game </strong>
-                </label>
-            </div>
-            <div class="col-sm-6">
-                <label>
-                    Your Score: <strong id="userScore" style="color: red;">0</strong>
-                </label>
-            </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="col-sm-6">
+            <label>
+                Current Round: <strong id="currRound" style="color: red;"></strong>
+            </label>
         </div>
-        <div class="col-sm-12">
-            <form id="userGameForm" method="POST">
-                <table class="table">
-                    <thead>
-                    <tr class="text-center">
-                        <th>Name</th>
-                        <th>Place</th>
-                        <th>Animal</th>
-                        <th>Thing</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="text-center">
-                        <td>
-                            <input type="text" class="form-control" id="name" placeholder="Enter Name" name="name">
-                            <input type="text" class="form-control" id="userid" name="userid" style="display: none;">
-                            <input type="text" class="form-control" id="roundno" name="roundno" style="display: none;">
-                            <input type="text" class="form-control" id="lobbykey" name="lobbykey" style="display: none;">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" id="place" placeholder="Enter Place" name="place">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" id="animal" placeholder="Enter Animal" name="animal">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" id="thing" placeholder="Enter Thing" name="thing">
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="col-sm-12 text-center">
-                    <button type="submit" id="submitAnswers" class="btn btn-default">Submit</button>
-                </div>
-            </form>
-            <br><br>
+        <div class="col-sm-6">
+            <label>
+                No. of Rounds: <strong id="totalRounds" style="color: red;"></strong>
+            </label>
         </div>
-        <div class="col-sm-12" id="gameResults" style="display: none;">
-
-            <table class="table" id ="scoreBoard">
+    </div>
+    <div class="col-sm-12">
+        <div class="col-sm-6">
+            <label>
+                Status: <strong id="currStatus" style="color: red;"> Starting Game </strong>
+            </label>
+        </div>
+        <div class="col-sm-6">
+            <label>
+                Your Score: <strong id="userScore" style="color: red;">0</strong>
+            </label>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <form id="userGameForm" method="POST">
+            <table class="table">
                 <thead>
                 <tr class="text-center">
-                    <th>UserName</th>
                     <th>Name</th>
                     <th>Place</th>
                     <th>Animal</th>
                     <th>Thing</th>
-                    <th>Total</th>
                 </tr>
                 </thead>
-                <tbody id="rowBody">
+                <tbody>
                 <tr class="text-center">
-
+                    <td>
+                        <input type="text" class="form-control" id="name" placeholder="Enter Name" name="name">
+                        <input type="text" class="form-control" id="userid" name="userid" style="display: none;">
+                        <input type="text" class="form-control" id="roundno" name="roundno" style="display: none;">
+                        <input type="text" class="form-control" id="lobbykey" name="lobbykey" style="display: none;">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" id="place" placeholder="Enter Place" name="place">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" id="animal" placeholder="Enter Animal" name="animal">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" id="thing" placeholder="Enter Thing" name="thing">
+                    </td>
                 </tr>
                 </tbody>
             </table>
-            <br><br>
-            <div class="col-sm-12 text-center" id="exitButtons" style="display: none;">
-                <a href="#" class="btn btn-default">End Game</a>
-                <a href="#" class="btn btn-primary">Lobby</a>
+            <div class="col-sm-12 text-center">
+                <button type="submit" id="submitAnswers" class="btn btn-default">Submit</button>
             </div>
+        </form>
+        <br><br>
+    </div>
+    <div class="col-sm-12" id="gameResults" style="display: none;">
+
+        <table class="table" id ="scoreBoard">
+            <thead>
+            <tr class="text-center">
+                <th>UserName</th>
+                <th>Name</th>
+                <th>Place</th>
+                <th>Animal</th>
+                <th>Thing</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody id="rowBody">
+            <tr class="text-center">
+
+            </tr>
+            </tbody>
+        </table>
+        <br><br>
+        <div class="col-sm-12 text-center" id="exitButtons" style="display: none;">
+            <a href="#" class="btn btn-default">End Game</a>
+            <a href="#" class="btn btn-primary">Lobby</a>
         </div>
     </div>
+</div>
 
 
 </div>
 <script>
     // store current round number in a variable
-    currentRoundNo = 0;
     var lobbyJoinDetails = {{ lobbyJoinDetails | tojson}};
-
     var users = {{ listOfAllUsers | tojson}};
 
     $(document).ready(function() {
-       $("#startGameButon").hide();
-       {#        var lobbyJoinDetails = {{ lobbyJoinDetails | tojson}};#}
-       var data = lobbyJoinDetails;
-       data = JSON.parse(data);
-       created_by_key = data['created_by_key'];
-       current_user_key = data['current_user_key'];
-       if(created_by_key.trim() === current_user_key.trim())
-       {
-           $("#startGameButon").show();
-       }
-   });
+        $("#startGameButon").hide();
+        {#        var lobbyJoinDetails = {{ lobbyJoinDetails | tojson}};#}
+        var data = lobbyJoinDetails;
+        data = JSON.parse(data);
+        created_by_key = data['created_by_key'];
+        current_user_key = data['current_user_key'];
+        if(created_by_key.trim() === current_user_key.trim())
+        {
+            $("#startGameButon").show();
+        }
+    });
 
 
+    currentRoundNo = 0;
 
 
     function userList() {
@@ -182,32 +183,30 @@
         $.ajax({
             url: '/userList',
             data: JSON.stringify(lobbyKeyToBeSent),
-            type: 'POST',
-            success: function(receivedData) {
-                console.log("Success Function Starts");
-{#                console.log(receivedData);#}
+            type: 'POST'
+        }).done(function  (receivedData) {
+            console.log("Success Function Starts");
+                {#                console.log(receivedData);#}
                 users = JSON.parse(receivedData);
-{#                console.log(users);#}
+                {#                console.log(users);#}
                 newList = '';
                 for (var key in users) {
                     if (users.hasOwnProperty(key)) {
-{#                        console.log(key);#}
+                        {#                        console.log(key);#}
                         newList += '<li class="list-group-item">'+users[key]['name']+'</li>';
                     }
                 }
                 $('#usrList').html(newList);
-{#                console.log("Success Function Ends");#}
-            },
-            error: function(error) {
-                console.log("Error Function Starts");
+                {#                console.log("Success Function Ends");#}
+        }).fail(function (error) {
+             console.log("Error Function Starts");
                 console.log(error);
                 console.log("Error Function Ends");
-            }
         });
 
         {#        loop();#}
         {#        return loop;#}
-        var check =  setInterval(userList, 5000);
+        var check =  setInterval(userList, 20000);
     }
 
 

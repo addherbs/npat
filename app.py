@@ -1,3 +1,4 @@
+import time
 from flask import Flask, render_template, request, redirect, make_response, session
 from firebase import firebase
 import random
@@ -42,28 +43,28 @@ def twoButton():
 @app.route ('/showLobby', methods=['GET', 'POST'])
 def listOfAllLobies():
     # if request.method == 'POST':
-        print ("GET call to createLobby")
-        # lobbiesList = ['lobby 1', 'Lobby 2']
-        lobbyList = []
-        get = firebase.get('/lobby', None)
-        for mykey in get:
-            createdBy = get[mykey]['created_by']
-            running=get[mykey]['running']
-            key_of_lobby=get[mykey]['key_of_lobby']
-            lobby_name=get[mykey]['lobby_name']
-            # print (createdBy)
-            if running==False:
-                data={
-                    'created_by': createdBy,
-                    'key_of_lobby': key_of_lobby,
-                    'lobby_name': lobby_name,
-                    'current_user_key': session['user_key']
-                }
-                # print (data)
-                lobbyList.append(data)
-            print("-----------------")
+    print ("GET call to createLobby")
+    # lobbiesList = ['lobby 1', 'Lobby 2']
+    lobbyList = []
+    get = firebase.get('/lobby', None)
+    for mykey in get:
+        createdBy = get[mykey]['created_by']
+        running=get[mykey]['running']
+        key_of_lobby=get[mykey]['key_of_lobby']
+        lobby_name=get[mykey]['lobby_name']
+        # print (createdBy)
+        if running==False:
+            data={
+                'created_by': createdBy,
+                'key_of_lobby': key_of_lobby,
+                'lobby_name': lobby_name,
+                'current_user_key': session['user_key']
+            }
+            # print (data)
+            lobbyList.append(data)
+        print("-----------------")
 
-        return render_template ('listOfAllLobies.html', lobbiesList=lobbyList)
+    return render_template ('listOfAllLobies.html', lobbiesList=lobbyList)
 
 
 @app.route('/createLobby', methods=['GET','POST'])
@@ -215,8 +216,7 @@ def submit():
 
     result = calculationBeforeGoingBack(lobbyKey, roundNumber)
 
-
-    return '<h1>success</h1>'
+    return '<h1>success == ' + result + '</h1>'
 
 def calculationBeforeGoingBack(lobbyKey, roundNumber):
     lobbyKey = "-KvfVmzDy6ezik9jKYRM"
@@ -225,14 +225,14 @@ def calculationBeforeGoingBack(lobbyKey, roundNumber):
     #     if submitted:
     #         update the 'all_user_submitted' key to true
 
-     if(check_all_users_submitted_for_the_current_round(lobbyKey,currentRound)):
+    if(check_all_users_submitted_for_the_current_round(lobbyKey,currentRound)):
 
 
         dbPath = '/lobby/' + lobbyKey + '/'
         firebase.put(dbPath , 'all_user_submitted', True )
         calculateScores(currentRound, lobbyKey)
 
-      else:
+    else:
         # Change the all_user_submitted variable to True
         print("else case")
         while (not checkFlag(lobbyKey)):
@@ -240,12 +240,9 @@ def calculationBeforeGoingBack(lobbyKey, roundNumber):
             # Make python sleep for 2 second
             time.sleep(2)
 
-
-        # Change the all_user_submitted variable to True
-
-
     # Check for 'all_user_submitted' variable in the lobby class
     return "lol"
+
 
 def checkFlag(lobbyKey):
     # lobbyKey = "-KvfVmzDy6ezik9jKYRM"
@@ -268,7 +265,6 @@ def check_all_users_submitted_for_the_current_round(lobbyKey, currentRound):
     totalUsersSubmitted = firebase.get (dbPathForTotalUsers, None)
 
     return True if ( len(totalUsersInLobby )== len(totalUsersSubmitted)) else False
-
 
 
 # @app.route("/calculateScores", methods=['GET','POST'])
@@ -403,23 +399,25 @@ def calculateScores(rNo, lobbyName):
     return "Hey Man"
 
 
-# KvMWOr9zFNAeGrbebu4
+# User is going too quit the Game
+# He will have to reenter the game
+@app.route ('/endGame', methods=['GET', 'POST'])
+def endGame():
+    print ("Entered End Game")
+    session.clear()
 
-@app.route ('/gameOver', methods=['GET', 'POST'])
-def gameOver():
-    print ("Entered Game Over")
-    operation_keys = request.form.keys ()
-    selected_operation = [i for i in operation_keys]
-    replay = 'replay'
-    exitClicked = 'exit'
-    if (selected_operation[0] == replay):
-        print ("Do Exit Code Here")
-        return redirect ('/index')
 
-    if (selected_operation[0] == exitClicked):
-        print("Do Exit Code Here")
-        return redirect ('/')
+    # Delete the user from the users
+    # Delete the user from the lobby
+    return render_template ('server.html', successMessage = "You are now logged out of the game")
 
+@app.route ('/leaveLobby', methods=['GET', 'POST'])
+def leaveLobby():
+    print ("Entered Leava Lobby")
+
+
+    # Delete the user from the lobby code is here
+    return redirect('/index')
 
 #Causes the app to start
 if __name__ == '__main__':

@@ -170,14 +170,18 @@
             console.log('Button Clicked Me');
         }
 
+        );
+
     });
+
+
 
 
     currentRoundNo = 0;
 
 
     function userList() {
-
+        console.log('Button Clicked Me!!!!----!!!!');
         console.log("starts");
         var data = lobbyJoinDetails;
 
@@ -192,22 +196,22 @@
             type: 'POST'
         }).done(function  (receivedData) {
             console.log("Success Function Starts");
-                {#                console.log(receivedData);#}
-                users = JSON.parse(receivedData);
-                {#                console.log(users);#}
-                newList = '';
-                for (var key in users) {
-                    if (users.hasOwnProperty(key)) {
-                        {#                        console.log(key);#}
-                        newList += '<li class="list-group-item">'+users[key]['name']+'</li>';
-                    }
+            {#                console.log(receivedData);#}
+            users = JSON.parse(receivedData);
+            {#                console.log(users);#}
+            newList = '';
+            for (var key in users) {
+                if (users.hasOwnProperty(key)) {
+                    {#                        console.log(key);#}
+                    newList += '<li class="list-group-item">'+users[key]['name']+'</li>';
                 }
-                $('#usrList').html(newList);
-                {#                console.log("Success Function Ends");#}
+            }
+            $('#usrList').html(newList);
+            {#                console.log("Success Function Ends");#}
         }).fail(function (error) {
-             console.log("Error Function Starts");
-                console.log(error);
-                console.log("Error Function Ends");
+            console.log("Error Function Starts");
+            console.log(error);
+            console.log("Error Function Ends");
         });
 
         {#        loop();#}
